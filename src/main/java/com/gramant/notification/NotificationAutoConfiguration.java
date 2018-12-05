@@ -6,8 +6,10 @@ import com.gramant.notification.email.adapters.mail.MailSenderEmailNotifyRegistr
 import com.gramant.notification.email.app.EmailNotify;
 import com.gramant.notification.email.app.EmailNotifyPassword;
 import com.gramant.notification.email.app.EmailNotifyRegistration;
+import com.gramant.notification.email.app.EmailProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,5 +33,11 @@ public class NotificationAutoConfiguration {
     @Bean
     public EmailNotifyPassword emailNotifyPassword(MailSender mailSender) {
         return new MailSenderEmailNotifyPassword(mailSender);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public EmailProvider emailProvider() {
+        return new EmailProvider.Default();
     }
 }
