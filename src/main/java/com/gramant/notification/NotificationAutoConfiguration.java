@@ -1,5 +1,6 @@
 package com.gramant.notification;
 
+import com.gramant.notification.email.adapters.mail.EmailMessageSender;
 import com.gramant.notification.email.adapters.mail.MailSenderEmailNotify;
 import com.gramant.notification.email.adapters.mail.MailSenderEmailNotifyPassword;
 import com.gramant.notification.email.adapters.mail.MailSenderEmailNotifyRegistration;
@@ -21,18 +22,26 @@ import org.springframework.mail.MailSender;
 public class NotificationAutoConfiguration {
 
     @Bean
-    public EmailNotify emailNotify(MailSender mailSender) {
-        return new MailSenderEmailNotify(mailSender);
+    public EmailMessageSender emailMessageSender(MailSender mailSender) {
+        return new EmailMessageSender(mailSender);
     }
 
     @Bean
-    public EmailNotifyRegistration emailNotifyRegistration(MailSender mailSender) {
-        return new MailSenderEmailNotifyRegistration(mailSender);
+    @ConditionalOnMissingBean
+    public EmailNotify emailNotify(EmailMessageSender emailMessageSender) {
+        return new MailSenderEmailNotify(emailMessageSender);
     }
 
     @Bean
-    public EmailNotifyPassword emailNotifyPassword(MailSender mailSender) {
-        return new MailSenderEmailNotifyPassword(mailSender);
+    @ConditionalOnMissingBean
+    public EmailNotifyRegistration emailNotifyRegistration(EmailMessageSender emailMessageSender) {
+        return new MailSenderEmailNotifyRegistration(emailMessageSender);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public EmailNotifyPassword emailNotifyPassword(EmailMessageSender emailMessageSender) {
+        return new MailSenderEmailNotifyPassword(emailMessageSender);
     }
 
     @Bean
