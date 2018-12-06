@@ -1,7 +1,7 @@
 package com.gramant.notification.email.adapters.jdbc;
 
 import com.gramant.notification.UserId;
-import com.gramant.notification.email.app.EmailProvider;
+import com.gramant.notification.email.app.ProvideEmail;
 import com.gramant.notification.email.domain.Email;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class JdbcEmailProvider implements EmailProvider {
+public class JdbcProvideEmail implements ProvideEmail {
 
     // todo: make configurable
     private static final String CONTACT_TABLE = "user_contact";
@@ -22,7 +22,7 @@ public class JdbcEmailProvider implements EmailProvider {
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<Email> email(UserId userId) {
+    public Optional<Email> emailOf(UserId userId) {
         String query = String.format("SELECT %s FROM %s WHERE %s = ?", CONTACT_EMAIL_COLUMN, CONTACT_TABLE, CONTACT_ID_COLUMN);
         List<String> emails = jdbcTemplate.queryForList(query, new Object[] {userId.asString()}, String.class);
         return emails.isEmpty() ? Optional.empty() : Optional.of(Email.of(emails.get(0)));
