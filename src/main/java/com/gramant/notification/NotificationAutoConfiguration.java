@@ -5,7 +5,7 @@ import com.gramant.auth.app.HandleRegistrationEvent;
 import com.gramant.notification.email.adapters.event.MessageEventListener;
 import com.gramant.notification.email.adapters.event.PasswordEventListener;
 import com.gramant.notification.email.adapters.event.RegistrationEventListener;
-import com.gramant.notification.email.adapters.jdbc.JdbcProvideEmail;
+import com.gramant.notification.email.adapters.jdbc.JdbcEmailProvider;
 import com.gramant.notification.email.adapters.mail.EmailMessageSender;
 import com.gramant.notification.email.adapters.mail.MailSenderEmailNotify;
 import com.gramant.notification.email.adapters.mail.MailSenderEmailNotifyPassword;
@@ -51,7 +51,7 @@ public class NotificationAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public ProvideEmail emailProvider(JdbcTemplate jdbcTemplate) {
-        return new JdbcProvideEmail(jdbcTemplate);
+        return new JdbcEmailProvider(jdbcTemplate);
     }
 
     @Bean

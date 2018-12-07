@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class JdbcProvideEmail implements ProvideEmail {
+public class JdbcEmailProvider implements ProvideEmail {
 
     // todo: make configurable
     private static final String CONTACT_TABLE = "user_contact";
